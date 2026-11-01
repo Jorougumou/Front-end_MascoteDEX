@@ -1,2 +1,3 @@
-# Front-end_MASCOTE_DEX
-Front-end do projeto de traineer Da include. Possui como objetivo criar uma pokedex para mascotes de empresas juniores
+# Pokédex EJ – Front-end
+
+Aplicação web desenvolvida para o processo de capacitação (trainee) da Include. O projeto consiste em uma Pokédex temática voltada para a catalogação de mascotes de Empresas Juniores.

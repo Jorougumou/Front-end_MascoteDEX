@@ -1,10 +1,11 @@
-import TelaInicial from "./screens/Home"
-import TelaMascote from "./screens/Home"
+import TelaMascote from "./screens/TelaMascote"
 import TelaRanking from "./screens/TelaRanking"
-import TelaPerfil from "./screens/TelaPerfil"
+import TelaMenu from "./screens/TelaMenu"
+
 import {Ionicons} from "@expo/vector-icons"
 
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+
 
 export default function AppNavigation() {
     const Tab = createMaterialTopTabNavigator();
@@ -17,16 +18,13 @@ export default function AppNavigation() {
             tabBarItemStyle : {alignItems : "center"},
             tabBarIndicatorStyle : {display : "none"}
         }}>
-            <Tab.Screen name="Perfil" component={TelaInicial} options={{tabBarIcon : ({focused}) => (
-                <Ionicons name="person-circle-outline" size={30} color={focused ? "black" : "white"} />
-            )}} />
             <Tab.Screen name="Mascote" component={TelaMascote} options={{tabBarIcon : ({focused}) => (
                 <Ionicons name="paw" size={30} color={focused ? "black" : "white"} />
             )}} />
             <Tab.Screen name="Ranking" component={TelaRanking}options={{tabBarIcon : ({focused}) => (
                 <Ionicons name="trophy" size={30} color={focused ? "black" : "white"} />
             )}} />
-            <Tab.Screen name="Menu" component={TelaPerfil} options={{tabBarIcon : ({focused}) => (
+            <Tab.Screen name="Menu" component={TelaMenu} options={{tabBarIcon : ({focused}) => (
                 <Ionicons name="menu" size={30} color={focused ? "black" : "white"} />
             )}} />
         </Tab.Navigator>

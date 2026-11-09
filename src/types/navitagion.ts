@@ -3,3 +3,9 @@ export type AuthParamsList = {
     Cadastro : undefined
 
 }
+
+export type NavigateParamsList = {
+    Eventos : undefined
+    Perfil : undefined
+    Mascote : undefined
+}

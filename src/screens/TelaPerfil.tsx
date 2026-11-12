@@ -1,21 +1,44 @@
 import {View, Text, TouchableOpacity} from "react-native"
-import { useNavigation } from "@react-navigation/native"
-import { NativeStackNavigationProp } from "@react-navigation/native-stack"
-import { NavigateParamsList } from "../types/navitagion"
+import { useEffect } from "react"
+import { obterUsuario } from "../services/Usuario"
+import { useState } from "react"
 
+import { usuario } from "../types/perfil"
 
 export default function TelaPerfil() {
+    const [Usuario, setUsuario] = useState<usuario>()
 
-    type NavigationProps = NativeStackNavigationProp<NavigateParamsList>
-
-    const navigation = useNavigation<NavigationProps>()
+    useEffect(() => {
+        const usuarioInfos = async() => {
+            const resposta = await obterUsuario()
+            setUsuario(resposta)
+        }
+        usuarioInfos()
+    }, [])
 
     return(
-        <View className="flex-1">
-            <View className="flex w-[100%] h-[10%] mt-[50px] justify-center items-end">
-                <TouchableOpacity onPress={() => navigation.navigate("Eventos")} className="p-[10px] bg-red-600 mr-[25px] rounded-[20px]">
-                    <Text className="text-white"> Eventos</Text>
-                </TouchableOpacity>
+        <View className="flex-1 items-center">
+            <View className="border w-[90%] bg-[#F14C23] h-[90%] mt-[50px] items-center justify-center">
+                <View className="gap-[15px]">
+                    <View>
+                        <Text className="text-[16px] text-black">Nome:</Text>
+                        <View className="p-[5px] bg-white rounded-[10px]">
+                            <Text>{Usuario?.nome}</Text>
+                        </View>
+                    </View>
+                    <View>
+                        <Text className="text-[16px] text-black">Email:</Text>
+                        <View className="p-[5px] bg-white rounded-[10px]">
+                            <Text> {Usuario?.email}</Text>
+                        </View>
+                    </View>
+                    <View>
+                        <Text className="text-[16px] text-black">Acesso:</Text>
+                        <View className="p-[5px] bg-white rounded-[10px]">
+                            <Text>{Usuario?.perfil}</Text>
+                        </View>
+                    </View>
+                </View>
             </View>
         </View>
     )

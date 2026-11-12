@@ -1,5 +1,4 @@
 import axios from "axios"
-import * as SecureStore from "expo-secure-store"
 import { obterToken } from "./servicoToken";
 
 export const api = axios.create({

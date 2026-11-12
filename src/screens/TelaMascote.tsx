@@ -1,14 +1,17 @@
 import {View, Text, FlatList, ActivityIndicator, TouchableOpacity} from "react-native"
 import {Image} from "expo-image"
 import { useNavigation } from "@react-navigation/native"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
+import { useFocusEffect } from "@react-navigation/native"
 import { ListaMascote } from "../types/mascote"
 import { obterMascotes } from "../services/servicoMascotes"
+import { obterUsuario } from "../services/Usuario"
 
 import ModalMascote from "../Components/Modais/ModalMascote"
 
 export default function TelaMascote() {
     const [carregando, setCarregando] = useState<boolean>(false)
+    const [PerfilUsuario, setPerfilUsuario] = useState("")
     const [ListaMascotes, setListaMascotes] = useState<ListaMascote[]>([])
     const [visivel, setVisivel] = useState<boolean>(false)
     const capturados = ListaMascotes.filter((mascote) => mascote.capturado).length
@@ -31,9 +34,23 @@ export default function TelaMascote() {
         }
     }
 
+    useFocusEffect(
+        useCallback(() => {
+            mascotes()
+        }, [])
+    )
+
     useEffect(() => {
-        mascotes()
-    }, [])
+        const usuario = async() => {
+            try {
+                const resposta = await obterUsuario()
+                setPerfilUsuario(resposta.perfil)
+            } catch(error : any) {
+                console.error(error)
+            }
+        }
+        usuario()
+    },[])
 
     if (carregando) {
         return (
@@ -79,17 +96,19 @@ export default function TelaMascote() {
                     </View>
                 </View>
             </View>
-            <View className="w-full items-end my-[10px]">
-                <TouchableOpacity
-                onPress={() => setVisivel(true)} 
-                className="px-[20px] py-[10px] mr-[10px] bg-[#F14C23] rounded-[20px]">
-                    <Text className="text-white">
-                        Adicionar
-                    </Text>
-                </TouchableOpacity>
-                <ModalMascote visivel={visivel} fechar={() => setVisivel(false)} 
-                atualizar={() => mascotes}/>
-            </View>
+            {(PerfilUsuario === "DIREX") && (
+                <View className="w-full items-end my-[10px]">
+                    <TouchableOpacity
+                    onPress={() => setVisivel(true)} 
+                    className="px-[20px] py-[10px] mr-[10px] bg-[#F14C23] rounded-[20px]">
+                        <Text className="text-white">
+                            Adicionar
+                        </Text>
+                    </TouchableOpacity>
+                    <ModalMascote visivel={visivel} fechar={() => setVisivel(false)} 
+                    atualizar={() => mascotes}/>
+                </View>
+            )}
             <FlatList
                 columnWrapperClassName="gap-[20px]"
                 contentContainerClassName="gap-[20px]"

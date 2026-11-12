@@ -86,7 +86,7 @@ export default function TelaMascote() {
     }
 
     return(
-        <View className="flex-1justify-center items-center">
+        <View className="flex-1 p-[10px] justify-center items-center">
             <View className="p-[10px] justify-center">
                 <View className="items-center gap-[5px]">
                     <Text className="text-[20px]">Mascotes</Text>

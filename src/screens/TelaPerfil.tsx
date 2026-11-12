@@ -1,17 +1,20 @@
 import {View, Text, TouchableOpacity} from "react-native"
-import { Ionicons } from "@expo/vector-icons"
-import { useAuth } from "../context/AuthContext"
+import { useNavigation } from "@react-navigation/native"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+import { NavigateParamsList } from "../types/navitagion"
+
 
 export default function TelaPerfil() {
-    const {sair} = useAuth()
+
+    type NavigationProps = NativeStackNavigationProp<NavigateParamsList>
+
+    const navigation = useNavigation<NavigationProps>()
 
     return(
-        <View className="flex flex-1 justify-center items-center">
-            <View className="flex items-center bg-orange-300 p-[40px] h-[60%]">
-                <Text className="text-[50px]">ola</Text>
-                <TouchableOpacity onPress={sair} className="flex flex-row mt-[20px] bg-red-500 p-[10px] w-[100px] rounded-[10px] items-center gap-[35px]">
-                    <Text className="text-[16px] text-white">Sair</Text>
-                    <Ionicons name="exit" size={18} color={"white"}/>
+        <View className="flex-1">
+            <View className="flex w-[100%] h-[10%] mt-[50px] justify-center items-end">
+                <TouchableOpacity onPress={() => navigation.navigate("Eventos")} className="p-[10px] bg-red-600 mr-[25px] rounded-[20px]">
+                    <Text className="text-white"> Eventos</Text>
                 </TouchableOpacity>
             </View>
         </View>

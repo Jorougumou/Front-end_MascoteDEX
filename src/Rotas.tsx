@@ -1,5 +1,6 @@
 import AuthNavigation from "./AuthNavigation";
 import AppNavigation from "./AppNavigation";
+import RootNavigation from "./RootNavigation";
 import { NavigationContainer } from "@react-navigation/native";
 import "../global.css"
 
@@ -10,7 +11,7 @@ export function Rotas () {
 
     return (
         <NavigationContainer>
-            {autenticado ? <AppNavigation/> : <AuthNavigation/>}
+            {autenticado ? <RootNavigation/> : <AuthNavigation/>}
         </NavigationContainer>
     )
 }

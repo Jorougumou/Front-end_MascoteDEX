@@ -11,6 +11,7 @@ module.exports = {
     extend: {
       fontFamily: {
         rubik: ['RubikMonoOne_400Regular'],
+        DancingScript : ["DancingScript"],
       },
     },
   },

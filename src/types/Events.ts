@@ -6,3 +6,10 @@ export type Eventos = {
     dataFim : string
     criadoEm : string
 }
+
+export type criarEventos = {
+    nome : string,
+    local : string
+    dataInicio : string
+    dataFim : string
+}

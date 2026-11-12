@@ -1,9 +1,12 @@
 import { View, Text, FlatList, ActivityIndicator, TouchableOpacity } from "react-native"
 import { Ionicons } from "@expo/vector-icons"
-import { useEffect, useState } from "react"
+
+import { useCallback, useEffect, useState } from "react"
 import { Eventos } from "../types/Events"
 import { perfil } from "../types/perfil"
 import { obterEventos } from "../services/Eventos"
+import ModalEvento from "../Components/Modais/ModalEvento"
+import { useFocusEffect } from "@react-navigation/native"
 import ListaEventos from "../Components/FlatListComponent/ListaEventos"
 import { obterUsuario } from "../services/Usuario"
 
@@ -11,21 +14,30 @@ export default function TelaEventos() {
     const [eventos, setEventos] = useState<Eventos[]>([])
     const [carreganto, setCarregando] = useState<boolean>(false)
     const [tipo_perfil, setTipoPerfil] = useState<perfil>()
+    const [visivel, setVisivel] = useState<boolean>(false)
 
     useEffect(() => {
-        const evento = async() => {
-            try{
-                setCarregando(true)
-                const resposta = await obterEventos()
-                setEventos(resposta.data)
-            } catch(error : any) {
-                console.error(error.response?.data)
-            } finally{
-                setCarregando(false)
-            }
+        const load = () => {
+            setCarregando(true)
         }
-        evento()
-    },[])
+        load()
+    }, [])
+
+    useFocusEffect(
+        useCallback(() => {
+            const evento = async() => {
+                try{
+                    const resposta = await obterEventos()
+                    setEventos(resposta.data)
+                } catch(error : any) {
+                    console.error(error.response?.data)
+                } finally{
+                    setCarregando(false)
+                }
+            }
+            evento()
+        }, [])
+    )
 
     useEffect(() => {
         const acesso = async() => {
@@ -54,10 +66,11 @@ export default function TelaEventos() {
 
     return(
         <View className="flex-1 items-center justify-center">
-            <View className="h-[80%]">
+            <View className="h-[90%]">
                 {tipo_perfil?.DIREX === true &&(
                     <View className="items-end">
-                        <TouchableOpacity className="flex-row items-center 
+                        <TouchableOpacity onPress={() => setVisivel(true)} 
+                        className="flex-row items-center 
                         px-[20px] 
                         py-[8px]
                         bg-[#F14C23] 
@@ -67,6 +80,7 @@ export default function TelaEventos() {
                                 Adicionar
                             </Text>
                         </TouchableOpacity>
+                        <ModalEvento visivel={visivel} fechar={() => setVisivel(false)}/>
                     </View>
                 )}
                 <FlatList

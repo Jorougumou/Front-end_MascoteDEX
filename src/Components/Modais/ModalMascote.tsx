@@ -28,6 +28,19 @@ export default function ModalMascote ({visivel, fechar, atualizar} : ModalMascot
     const [ejUniversidade, setEjUniversidade] = useState("")
     const [ejCuriosidades, setEjCuriosidades] = useState("")
 
+    useEffect(() => {
+        const EventosMenu = async() => {
+            try {
+                const resposta = await obterEventos()
+                setEventos(resposta.data)
+            } catch(error : any){
+                return console.error(error.response?.data)
+            }   
+        }
+        EventosMenu()
+    }, [])
+
+
     if (carregando) {
         return (
             <View className="flex-1 items-center justify-center">
@@ -59,17 +72,6 @@ export default function ModalMascote ({visivel, fechar, atualizar} : ModalMascot
 
 
 
-    useEffect(() => {
-        const EventosMenu = async() => {
-            try {
-                const resposta = await obterEventos()
-                setEventos(resposta.data)
-            } catch(error : any){
-                return console.error(error.response?.data)
-            }   
-        }
-        EventosMenu()
-    }, [])
 
     const NovoMascote = async() => {
         try{

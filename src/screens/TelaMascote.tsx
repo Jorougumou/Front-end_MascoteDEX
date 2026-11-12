@@ -23,7 +23,6 @@ export default function TelaMascote() {
 
     const mascotes = async() => {
         try{
-            setCarregando(true)
             const resposta = await obterMascotes()
             setListaMascotes(resposta.data)
             setTotal(resposta.meta.total)
@@ -34,11 +33,20 @@ export default function TelaMascote() {
         }
     }
 
+    useEffect(() => {
+        const carregar = () => {
+            setCarregando(true)
+        }
+        carregar()
+    }, [])
+
     useFocusEffect(
         useCallback(() => {
             mascotes()
         }, [])
     )
+
+    
 
     useEffect(() => {
         const usuario = async() => {

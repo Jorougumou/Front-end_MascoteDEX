@@ -1,15 +1,21 @@
-import { View, Text, Image, ActivityIndicator } from "react-native";
+import { View, Text, Image, ActivityIndicator, TouchableOpacity } from "react-native";
+import * as ImagePicker from "expo-image-picker"
 import { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { ObterMascoteId } from "../services/servicoMascotes";
+import ModalMascote from "../Components/Modais/ModalCaptura";
 import { Mascote } from "../types/mascote";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function DetalheMascote(){
-    const [mascote, setMascote] = useState<Mascote | null>(null)
+    const [mascote, setMascote] = useState<Mascote>()
     const route = useRoute<any>()
     const [carregando, setCarregando] = useState<boolean>(false)
+    const [visivel, setVisivel] = useState<boolean>(false)
 
     const id = route.params?.id
+
+    const [foto, setFoto] = useState("")
 
     useEffect(() => {
        const obterMascote = async() => {
@@ -26,6 +32,30 @@ export default function DetalheMascote(){
        obterMascote() 
     }, [])
 
+    const abrirCamera = async() => {
+        const permissao = await ImagePicker.requestCameraPermissionsAsync()
+
+        if (!permissao.granted) {
+            console.log("permissão negada")
+            return
+        }
+
+        const resultado = await ImagePicker.launchCameraAsync({
+            mediaTypes:["images"],
+            allowsEditing : false,
+            quality : 1
+        })
+        resultado
+
+        if (!resultado.canceled) {
+            setFoto(resultado.assets[0].uri)
+            setVisivel(true)
+        }
+
+    }
+
+
+
     if (carregando) {
         return (
             <View className="flex-1 items-center justify-center">
@@ -34,9 +64,22 @@ export default function DetalheMascote(){
         )
     }
 
+    
+
     return (
         <View className="flex-1 items-center justify-center">
-            <View className="border h-[90%] w-[90%] items-center gap-[20px] p-[5px] bg-[#F14C23] rounded-[10px]">
+            {mascote && (
+                <ModalMascote visivel={visivel} id={mascote.id}
+                fechar={()=> setVisivel(false)} atualizar={() => null}
+                fotoMascote={foto}/>
+            )}
+            <View className="h-[90%] w-[90%] items-center gap-[20px] p-[5px] bg-[#F14C23] rounded-[10px]">
+                <TouchableOpacity className="absolute right-0 p-[10px] bg-red-700 m-[10px] 
+                rounded-full"
+                onPress={abrirCamera}
+                >
+                    <Ionicons name="camera" size={30} color={"white"}/>
+                </TouchableOpacity>
                 <View className="items-center">
                     <Image className="w-[100px] h-[100px] mt-[25px] rounded-full" source={{uri : mascote?.fotoUrl}}/>
                     <Text className="mt-[10px] text-white text-[20px]">

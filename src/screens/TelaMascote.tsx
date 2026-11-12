@@ -1,4 +1,5 @@
-import {View, Text, FlatList, Image, ActivityIndicator, TouchableOpacity} from "react-native"
+import {View, Text, FlatList, ActivityIndicator, TouchableOpacity} from "react-native"
+import {Image} from "expo-image"
 import { useNavigation } from "@react-navigation/native"
 import { useState, useEffect } from "react"
 import { ListaMascote } from "../types/mascote"
@@ -54,8 +55,9 @@ export default function TelaMascote() {
                 })}
                 >
                     <Image source={{uri: item.fotoUrl}}
-                    className="w-[80px] rounded-[50px] h-[80px]"
-                    style={{opacity : item.capturado ? 0.2 : 1}}
+                    cachePolicy="disk"
+                    contentFit="cover"
+                    style={{width : 80, height : 80, borderRadius : 100, opacity : item.capturado ? 1 : 0.2}}
                     />
                     <Text className="mt-[30px] text-[20px] text-center" 
                     style={{color : item.capturado ? "gray" : "white",

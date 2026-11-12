@@ -19,7 +19,7 @@ interface ModalCriarMascoteProps {
 
 
 
-export default function ModalMascote ({id, visivel, fechar, atualizar, fotoMascote} : ModalCriarMascoteProps) {
+export default function ModalCapturaMascote ({id, visivel, fechar, atualizar, fotoMascote} : ModalCriarMascoteProps) {
     const [eventos, setEventos] = useState<Eventos[]>([])
     const [eventosSelecionado, setEventoSelecionado] = useState<string>("")
     const [carregando, setCarregando] = useState<boolean>(false)

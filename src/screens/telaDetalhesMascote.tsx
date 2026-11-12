@@ -3,7 +3,7 @@ import * as ImagePicker from "expo-image-picker"
 import { useEffect, useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import { ObterMascoteId } from "../services/servicoMascotes";
-import ModalMascote from "../Components/Modais/ModalCaptura";
+import ModalCapturaMascote from "../Components/Modais/ModalCaptura";
 import { Mascote } from "../types/mascote";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -69,7 +69,7 @@ export default function DetalheMascote(){
     return (
         <View className="flex-1 items-center justify-center">
             {mascote && (
-                <ModalMascote visivel={visivel} id={mascote.id}
+                <ModalCapturaMascote visivel={visivel} id={mascote.id}
                 fechar={()=> setVisivel(false)} atualizar={() => null}
                 fotoMascote={foto}/>
             )}
